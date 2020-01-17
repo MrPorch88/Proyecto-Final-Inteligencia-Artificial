@@ -3,6 +3,7 @@ import numpy as np
 import soundfile
 import pyaudio
 import os
+import sklearn
 #[
 # {
 # ruta:'ruta',
@@ -14,7 +15,7 @@ import os
 # ]
 # Metodo de parseo de datos
 def parseo_datos():
-    entradas = os.listdir('data/')
+    entradas = os.listdir('Data/')
     for entrada in entradas:
         print(entrada) # Deberia de imprimir el nombre de cada archivo de la carpeta principal de audios
 
@@ -29,4 +30,3 @@ def extract_feature(file_name):
         X, sample_rate = librosa.load(file_name, mono=True)
         mfccs_mean = np.mean(librosa.feature.mfcc(y=X, sr=sample_rate, n_mfcc=100).T, axis=0)
     return mfccs_mean
-
