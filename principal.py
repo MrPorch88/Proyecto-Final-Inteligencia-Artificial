@@ -3,7 +3,7 @@ import numpy as np
 import soundfile as sf
 import pyaudio
 import os
-from sklearn.naive_bayes import CategoricalNB
+from sklearn.naive_bayes import GaussianNB
 #[
 # {
 # ruta:'ruta',
@@ -14,10 +14,23 @@ from sklearn.naive_bayes import CategoricalNB
 # },etc etc
 # ]
 # Metodo de parseo de datos
-def parseo_datos():
-    entradas = os.listdir('Data/')
-    for entrada in entradas:
-        print(entrada) # Deberia de imprimir el nombre de cada archivo de la carpeta principal de audios
+def parseo_datos(direc):
+    X = []
+    y = []
+
+    for root, dirs, files in os.walk(direc):
+        for name in files:
+            emotion = name.split('_')
+            if not root.endswith('Test1') and not root.endswith('Test2'):
+                try:
+                    features = extract_feature( root + '/' + name)
+                    X.append(features)
+                    y.append(emotion[0])
+                except:
+                    print(root + '-' + name)
+                    continue
+
+
 
 
 
@@ -35,10 +48,11 @@ def extract_feature(file_name):
     return mfccs_mean
 
 def bayes(train_X, train_Y, test_X, test_Y):
-    
+    print("hola")
+
 
 if __name__ == '__main__':
     #file = 'Proyecto-Final-Inteligencia-Artificial/Data/0/Alegria_1.WAV'
-    file = 'Data/0/Alegria_1.WAV'
-    print(extract_feature(file))
-
+    file = 'Data/0/Asco_1.WAV'
+    direc = 'Data'
+    parseo_datos(direc)
